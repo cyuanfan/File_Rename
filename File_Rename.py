@@ -58,6 +58,13 @@ sorted_file_paths = sorted(file_paths, key=lambda x: get_number_from_string(os.p
 # 讓使用者輸入檔名前綴字串
 prefix = input("請輸入檔名前綴字串: ")
 
+# 讓使用者決定檔名的數字編號是否加上括弧
+bracket = input("是否將數字放入括弧內: y/n ?")
+if bracket == 'y':
+    add_bracket = True
+else:
+    add_bracket = False
+
 
 # 依序重新命名檔案
 for i, f in enumerate(sorted_file_paths):
@@ -69,10 +76,15 @@ for i, f in enumerate(sorted_file_paths):
     match = re.search(r'\[(\d+)\]', f)
     if match:
         number = int(match.group(1))
-        new_file_name = f"{prefix}{str(number).zfill(3)}{ext}"
     else:
         number = i + 1
-        new_file_name = f"{prefix}{str(number).zfill(3)}{ext}"
+
+    if add_bracket == True:
+        str_number = '(' + str(number).zfill(2) + ')'
+    else:
+        str_number = str(number).zfill(2)
+
+    new_file_name = f"{prefix}{str_number}{ext}"
 
     # 重新命名檔案
     os.rename(f, os.path.join(folder_path, new_file_name))
