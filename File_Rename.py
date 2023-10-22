@@ -1,41 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Thu Mar  9 14:54:32 2023
-
-@author: s5011
-"""
-
-"""
-
-import os
-
-# 輸入要重命名的資料夾路徑
-folder_path = input("請輸入要重命名的資料夾路徑：")
-
-# 輸入檔名的前綴字串
-prefix = input("請輸入檔名的前綴字串：")
-
-# 取得資料夾中所有的檔案
-files = os.listdir(folder_path)
-
-# 取得檔案名稱中的數字，並依照數字大小排序
-files_with_numbers = [(file_name, int("".join(filter(str.isdigit, os.path.splitext(file_name)[0])))) for file_name in files if "".join(filter(str.isdigit, os.path.splitext(file_name)[0]))]
-files_with_numbers.sort(key=lambda x: x[1])
-
-# 計算檔名中最大的數字的位數
-max_num_digits = len(str(files_with_numbers[-1][1]))
-
-# 重命名所有檔案
-for i, (file_name, number) in enumerate(files_with_numbers):
-    # 將數字轉換為補零後的字串
-    num_str = str(number).zfill(max_num_digits)
-    file_extension = os.path.splitext(file_name)[1]
-    new_file_name = prefix + "_" + num_str + file_extension
-    os.rename(os.path.join(folder_path, file_name), os.path.join(folder_path, new_file_name))
-
-"""
-
-
 import os
 import re
 
@@ -80,58 +42,12 @@ for i, f in enumerate(sorted_file_paths):
         number = i + 1
 
     if add_bracket == True:
-        str_number = '(' + str(number).zfill(2) + ')'
+        str_number = '(' + str(number).zfill(3) + ')'
     else:
-        str_number = str(number).zfill(2)
+        str_number = str(number).zfill(3)
 
     new_file_name = f"{prefix}{str_number}{ext}"
 
     # 重新命名檔案
     os.rename(f, os.path.join(folder_path, new_file_name))
 
-
-
-"""
-import os
-import re
-
-# 檔案所在的資料夾路徑
-folder_path = input("請輸入檔案所在的資料夾路徑：")
-
-# 檔名前綴字串
-prefix = input("請輸入檔名前綴字串（按 Enter 跳過）：")
-
-# 取得資料夾內所有檔案的列表
-files = os.listdir(folder_path)
-
-# 找到檔名中的數字，如果沒有括弧就找最後一個數字
-pattern = r'\d+'
-if any('(' in f and ')' in f for f in files):
-    pattern = r'\(\d+\)'
-
-# 將檔案名稱按照數字大小排序
-files.sort(key=lambda x: int(re.findall(pattern, x)[-1]))
-
-# 重新命名檔案
-for i, file in enumerate(files):
-    # 取得檔案的副檔名
-    file_ext = os.path.splitext(file)[1]
-
-    # 補足數字的前置0
-    num_str = re.findall(pattern, file)[-1]
-    num_str = num_str.zfill(3)
-
-    # 新檔名
-    new_file_name = prefix + num_str + file_ext
-
-    # 舊檔案路徑
-    old_file_path = os.path.join(folder_path, file)
-
-    # 新檔案路徑
-    new_file_path = os.path.join(folder_path, new_file_name)
-
-    # 重新命名
-    os.rename(old_file_path, new_file_path)
-    print(f"{old_file_path} 已更名為 {new_file_path}")
-
-"""
